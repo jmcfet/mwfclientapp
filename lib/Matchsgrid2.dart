@@ -1,6 +1,9 @@
 
 
 
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
@@ -61,7 +64,7 @@ class _UserMatchsState extends State<UserMatchsDataGrid2> {
           title: Text(_monthNames[widget.currentmonth] + '  Matchs  '),
           actions: <Widget>[
             ElevatedButton(
-              child: Text('Export To Pdf'),
+              child: const Text('Export To Pdf'),
               onPressed: () {
                 createPDF();;
               },
@@ -95,14 +98,14 @@ class _UserMatchsState extends State<UserMatchsDataGrid2> {
 
   }
    createPDF( ) async{
-     PdfDocument document = _key.currentState!.exportToPdfDocument();
+  //   PdfDocument document = _key.currentState!.exportToPdfDocument();
   //   final List<int> bytes = document.save();
    //  File(bytes,'DataGrid.pdf');
   //   await saveAndLaunchFile(bytes, 'DataGrid.pdf');
      //to produce landscape we need to create a pdfgrid first
-  //   PdfDocument document = PdfDocument(
+     PdfDocument document = PdfDocument(
 
-     //);
+     );
      document.pageSettings.orientation = PdfPageOrientation.landscape;
      PdfPage pdfPage = document.pages.add();
      PdfGrid pdfGrid = _key.currentState!.exportToPdfGrid(
@@ -125,9 +128,9 @@ class _UserMatchsState extends State<UserMatchsDataGrid2> {
      pdfGrid.draw(
          page: pdfPage,
          bounds: Rect.fromLTWH(0, 0, 0, 0));
-   //  final List<int> bytes = document.save();
+   // Future <List<int>> bytes = document.save();
 
- //    await saveAndLaunchFile(bytes, _monthNames[widget.currentmonth] +'DataGrid.pdf');
+     await saveAndLaunchFile(await document.save(), _monthNames[widget.currentmonth] +'DataGrid.pdf');
      document.dispose();
   }
 }
@@ -262,14 +265,14 @@ class PlayerData{
 
 //  NOTE THIS ONLY WORKS IN FLUTTER WEB BUT THAT IS MY TARGET NOW
 Future<void> saveAndLaunchFile( List<int> bytes, String fileName) async {
-/*   later
+
   AnchorElement(
       href:
       'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(
           bytes)}')
     ..setAttribute('download', fileName)
     ..click();
-*/
+
 
 }
 
